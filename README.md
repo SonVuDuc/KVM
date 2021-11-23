@@ -55,11 +55,62 @@ Mỗi máy ảo đều hoạt động độc lập với những máy ảo khác
 Các thành phần của một hệ thống ảo hoá bao gồm:
 
 - Tài nguyên phần cứng: CPU, RAM, ổ cứng lưu trữ... ở trên máy chủ vật lý. Cung cấp tài nguyên cho các máy ảo.
-- Phần mềm ảo hoá: còn được gọi là Hypervisor. Lền tảng của môi trường ảo hóa, cho phép tạo ra các máy ảo, quản lý và cung cấp tài nguyên đến các máy ảo.
+- Phần mềm ảo hoá: còn được gọi là Hypervisor. Là nền tảng của môi trường ảo hóa, cho phép tạo ra các máy ảo, quản lý và cung cấp tài nguyên đến các máy ảo.
 - Máy ảo: Virtual Machine, được tạo ra từ Hypervisor và phân bổ tài nguyên phần cứng. Có vai trò như một máy vật lý thông thường.
 - Hệ điều hành: Hệ điều hành, ứng dụng được cài đặt trên máy ảo.
 
-![image](https://user-images.githubusercontent.com/32956424/142970501-e244c38b-6085-4f8e-b5fa-06cb2ff96fd7.png)
+![image](https://user-images.githubusercontent.com/32956424/142970616-8123ce81-f7ca-4348-972f-0bdba5fb51c9.png)
+
+Phân loại Hypervisor: 
+
+![image](https://user-images.githubusercontent.com/32956424/142970797-6a92407d-6865-4be3-9496-96fc881e11ed.png)
+
+- **Type 1: Bare-metal**
+
+Là loại hypervisor chạy trực tiếp trên phần cứng máy chủ vật lý như một OS (VD: VMware Esxi,...). 
+
+Sử dụng 100% tài nguyên hệ thống nên có hiệu năng và tính bảo mật cao. Nhưng phải bỏ tiền ra mua license.
+
+![image](https://user-images.githubusercontent.com/32956424/142971064-9c9ab2e6-2020-4bf5-a2b3-f2caae9b85a3.png)
+
+
+- **Type 2: Host-based**
+
+Là loại hypervisor được cài đặt trên hệ điều hành như một ứng dụng bình thường (VD: VMware Workstation, Oracle VirtualBox,...)
+
+Ăn tranh tài nguyên hệ thống với hệ điều hành và các ứng dụng khác, hiệu năng không cao nhưng đa số là hàng FREE.
+
+![image](https://user-images.githubusercontent.com/32956424/142971119-dfc60da4-99c5-4de4-a69b-aa603554427e.png)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
