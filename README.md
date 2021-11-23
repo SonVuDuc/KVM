@@ -48,16 +48,19 @@ Theo định nghĩa trong CNTT, thì ảo hoá là công nghệ được thiết
 
 ![image](https://user-images.githubusercontent.com/32956424/142969846-3c956d72-dbd6-4b2a-8d04-d356e3e4b4f9.png)
 
-Ý tưởng của công nghệ này là từ một máy chủ vật lý có thể tạo ra nhiều máy ảo riêng biệt. Máy chủ vật lý dùng để chạy phần mềm ảo hoá được gọi là Host, còn máy các máy ảo được gọi là guests. 
+Ý tưởng của công nghệ này là từ một máy chủ vật lý có thể tạo ra nhiều máy ảo riêng biệt. Máy chủ vật lý dùng để chạy phần mềm ảo hoá được gọi là Host, còn các máy ảo được gọi là guests. 
 
 Mỗi máy ảo đều hoạt động độc lập với những máy ảo khác. Chúng nó OS riêng, ứng dụng riêng, storage riêng.
 
 Các thành phần của một hệ thống ảo hoá bao gồm:
 
-- Tài nguyên phần cứng
-- Phần mềm ảo hoá
-- Máy ảo
-- 
+- Tài nguyên phần cứng: CPU, RAM, ổ cứng lưu trữ... ở trên máy chủ vật lý. Cung cấp tài nguyên cho các máy ảo.
+- Phần mềm ảo hoá: còn được gọi là Hypervisor. Lền tảng của môi trường ảo hóa, cho phép tạo ra các máy ảo, quản lý và cung cấp tài nguyên đến các máy ảo.
+- Máy ảo: Virtual Machine, được tạo ra từ Hypervisor và phân bổ tài nguyên phần cứng. Có vai trò như một máy vật lý thông thường.
+- Hệ điều hành: Hệ điều hành, ứng dụng được cài đặt trên máy ảo.
+
+![image](https://user-images.githubusercontent.com/32956424/142970501-e244c38b-6085-4f8e-b5fa-06cb2ff96fd7.png)
+
 
 
 
