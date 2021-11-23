@@ -16,9 +16,9 @@
 
 - [2.2. Cấu hình](#2.2)
 
-[3. Quản lý KVM bằng libvirt](#3)
+[3. Quản lý KVM](#3)
 
-- [3.1. Giới thiệu](#3.1)
+- [3.1. Công cụ Virt-Manager](#3.1)
 
 - [3.2. Các chức năng chính](#3.2)
 
