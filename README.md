@@ -52,16 +52,16 @@ Theo định nghĩa trong CNTT, thì ảo hoá là công nghệ được thiết
 
 Mỗi máy ảo đều hoạt động độc lập với những máy ảo khác. Chúng nó OS riêng, ứng dụng riêng, storage riêng.
 
-Các thành phần của một hệ thống ảo hoá bao gồm:
+### Các thành phần của một hệ thống ảo hoá
 
-- Tài nguyên phần cứng: CPU, RAM, ổ cứng lưu trữ... ở trên máy chủ vật lý. Cung cấp tài nguyên cho các máy ảo.
-- Phần mềm ảo hoá: còn được gọi là Hypervisor. Là nền tảng của môi trường ảo hóa, cho phép tạo ra các máy ảo, quản lý và cung cấp tài nguyên đến các máy ảo.
-- Máy ảo: Virtual Machine, được tạo ra từ Hypervisor và phân bổ tài nguyên phần cứng. Có vai trò như một máy vật lý thông thường.
-- Hệ điều hành: Hệ điều hành, ứng dụng được cài đặt trên máy ảo.
+- **Tài nguyên phần cứng**: CPU, RAM, ổ cứng lưu trữ... ở trên máy chủ vật lý. Cung cấp tài nguyên cho các máy ảo.
+- **Phần mềm ảo hoá**: còn được gọi là Hypervisor. Là nền tảng của môi trường ảo hóa, cho phép tạo ra các máy ảo, quản lý và cung cấp tài nguyên đến các máy ảo.
+- **Máy ảo**: Virtual Machine, được tạo ra từ Hypervisor và phân bổ tài nguyên phần cứng. Có vai trò như một máy vật lý thông thường.
+- **Hệ điều hành**: Hệ điều hành, ứng dụng được cài đặt trên máy ảo.
 
 ![image](https://user-images.githubusercontent.com/32956424/142970616-8123ce81-f7ca-4348-972f-0bdba5fb51c9.png)
 
-Phân loại Hypervisor: 
+### Phân loại Hypervisor
 
 ![image](https://user-images.githubusercontent.com/32956424/142970797-6a92407d-6865-4be3-9496-96fc881e11ed.png)
 
@@ -82,6 +82,9 @@ Là loại hypervisor được cài đặt trên hệ điều hành như một �
 
 ![image](https://user-images.githubusercontent.com/32956424/142971119-dfc60da4-99c5-4de4-a69b-aa603554427e.png)
 
+
+<a name = "1.2"></a>
+## 1.2. Ảo hoá KVM
 
 
 
