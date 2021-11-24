@@ -82,11 +82,22 @@ Là loại hypervisor được cài đặt trên hệ điều hành như một �
 
 ![image](https://user-images.githubusercontent.com/32956424/142971119-dfc60da4-99c5-4de4-a69b-aa603554427e.png)
 
+### Lợi ích khi sử dụng ảo hoá
+
+- Tiết kiệm, giảm chi phí duy trì server
+- Giảm thiểu số lượng thiết bị vật lý 
+- Quản lý tập trung
+- Khả năng mở rộng dễ dàng  
+
 
 <a name = "1.2"></a>
 ## 1.2. Ảo hoá KVM
 
+**KVM** - **Kernel-based Virtual Machine**: máy ảo dựa trên nhân, là một module ảo hoá nằm trong nhân Linux, cho phép nhân Linux thực hiện các chức năng như một hypervisor
 
+### Tính năng của KVM
+
+- Security – Bảo mật:
 
 
 
