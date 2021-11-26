@@ -6,11 +6,11 @@
 
 - [1.1. Giới thiệu về ảo hoá](#1.1)
 
-- [1.2. Ảo hóa KVM](#1.2)
+- [1.2. KVM](#1.2)
 
-- [1.3. Các tính năng của ảo hóa KVM](#1.3)
+- [1.3. QEMU](#1.3)
 
-- [1.4. Kiến trúc KVM kết hợp QEMU](#1.4)
+- [1.4. Ảo hoá KVM kết hợp QEMU](#1.4)
 
 [2. Cài đặt KVM](#2)
 
@@ -91,13 +91,24 @@ Là loại hypervisor được cài đặt trên hệ điều hành như một �
 
 
 <a name = "1.2"></a>
-## 1.2. Ảo hoá KVM
+## 1.2. KVM
 
 **KVM** - **Kernel-based Virtual Machine**: máy ảo dựa trên nhân, là một module ảo hoá nằm trong nhân Linux, cho phép nhân Linux thực hiện các chức năng như một hypervisor
 
 ### Tính năng của KVM
 
 - Security – Bảo mật:
+- Memory management – Quản lý bộ nhớ:
+- Storage – Lưu trữ:
+- Live migration:
+
+<a name = "1.3"></a>
+## 1.3. QEMU
+
+
+<a name = "1.4"></a>
+## 1.4. Ảo hoá KVM kết hợp QEMU
+
 
 
 
