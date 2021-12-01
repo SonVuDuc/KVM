@@ -112,9 +112,27 @@ Là loại hypervisor được cài đặt trên hệ điều hành như một �
 <a name = "2"></a>
 # 2. Libvirt
 
+Để thuận tiện cho việc quản lý các máy ảo và các chức năng ảo hoá, thư viện **libvirt** đã được phát triển. 
 
+Libvirt là một công cụ quản lý các nền tảng ảo hoá. Cung cấp API cho cho nhiều hypervisor như KVM, XEN, ESXi,... Đồng thời được sủ dụng bởi nhiều công nghệ cloud như Openstack, oVirt,...
+
+Mục đích của libvirt là cung cấp 1 phương pháp duy nhất để quản lý ảo hoá từ nhiều loại hypervisor khác nhau.
 
 ![image](https://user-images.githubusercontent.com/32956424/144171957-0573732d-99b6-49e6-808b-1205851e9db8.png)
+
+## Các chức năng chính của Libvirt
+
+- **VM management**: cho phép quản lý máy ảo, như start, stop, pause, save, restore, migrate,... 
+- **Remote machine support**: Hỗ trợ kết nối từ xa, có thể dùng SSH để truy cập vào nhiều Host chạy daemon libvirt. Nếu máy remote host từ xa đang chạy libvirty và SSH được cho phép, câu lệnh sau sẽ cung cấp khả năng truy cập virsh cho tất cả máy ảo KVM/QEMU trên remote host đó.
+
+``` virsh --connect qemu+ssh://root@example.com/system```
+
+- **Storage management**: quản lý, lưu trữ image máy ảo với nhiều định dạng: qcow2, img,...  Cho phép liệt kê LVM, tạo LVM mới.
+- **Network interface management**: 
+- **Virtual NAT and Route based networking**: tạo và quản lý các mạng ảo 
+
+
+Tóm lại là: QEMU là mức thấp nhất mô phỏng bộ xử lý và thiết bị ngoại vi. KVM là tăng tốc nếu CPU được bật VT. Libvirt cung cấp trình nền và ứng dụng khách để thao tác với VM cho thuận tiện.
 
 <a name = "3"></a>
 # 3. Cài đặt KVM
