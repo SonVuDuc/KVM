@@ -128,11 +128,12 @@ Mục đích của libvirt là cung cấp 1 phương pháp duy nhất để qu�
 ``` virsh --connect qemu+ssh://root@example.com/system```
 
 - **Storage management**: quản lý, lưu trữ image máy ảo với nhiều định dạng: qcow2, img,...  Cho phép liệt kê LVM, tạo LVM mới.
-- **Network interface management**: 
-- **Virtual NAT and Route based networking**: tạo và quản lý các mạng ảo 
+- **Network interface management**: quản lý các interface network logic và vật lý. Liệt kê, cấu hình các interface logic, bridge, VLAN,...
+- **Virtual NAT and Route based networking**: tạo và quản lý các mạng ảo.
 
 
 Tóm lại là: QEMU là mức thấp nhất mô phỏng bộ xử lý và thiết bị ngoại vi. KVM là tăng tốc nếu CPU được bật VT. Libvirt cung cấp trình nền và ứng dụng khách để thao tác với VM cho thuận tiện.
+
 
 <a name = "3"></a>
 # 3. Cài đặt KVM
