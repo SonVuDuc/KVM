@@ -12,20 +12,21 @@
 
 - [1.4. Ảo hoá KVM kết hợp QEMU](#1.4)
 
-[2. Cài đặt KVM](#2)
 
-- [2.1. Kiểm tra cấu hình hệ thống và cài đặt](#2.1)
+[2. Libvirt](#2)
 
-- [2.2. Cấu hình](#2.2)
+[3. Cài đặt KVM](#3)
 
-[3. Quản lý KVM](#3)
+[4. Quản lý KVM](#4)
 
-- [3.1. Công cụ Virt-Manager](#3.1)
+- [3.1. Công cụ Virt Manager](#4.1)
 
-- [3.2. Các chức năng chính](#3.2)
+- [3.2. Các chức năng chính](#4.2)
+
+- [2.2. Tạo máy ảo KVM](#4.3)
 
 
-[4. Network và Storage](#3)
+[4. Network và Storage](#4)
 
 - [3.1. Công cụ Virt-Manager](#4.1)
 
@@ -34,7 +35,6 @@
 
 [5. Network và Storage](#5)
 
-[6. Libvirt](#6)
 
 ---
 
@@ -109,12 +109,44 @@ Là loại hypervisor được cài đặt trên hệ điều hành như một �
 <a name = "1.4"></a>
 ## 1.4. Ảo hoá KVM kết hợp QEMU
 
+<a name = "2"></a>
+# 2. Libvirt
 
 
 
+![image](https://user-images.githubusercontent.com/32956424/144171957-0573732d-99b6-49e6-808b-1205851e9db8.png)
+
+<a name = "3"></a>
+# 3. Cài đặt KVM
 
 
+Để cài được KVM thì cần phải được CPU hỗ trợ, kiểm tra xem CPU có hỗ trợ hay không bằng cách sử dụng lệnh:
 
+``` egrep -c "svm|vmx" /proc/cpuinfo ```
+
+Nếu kết quả trả về lớn hơn 0 thì tức là CPU có hỗ trợ
+
+![image](https://user-images.githubusercontent.com/32956424/144169623-9d8d8f74-898d-4e2d-861f-770d394aba55.png)
+
+Chạy lệnh sau để cài đặt KVM và các package liên quan:
+
+```  yum install qemu-kvm libvirt bridge-utils virt-install virt-manager virt-install -y ```
+
+Sau khi quá trình cài đặt hoàn tất, kiểm tra KVM đã được cài đặt chưa bằng lệnh:
+
+``` lsmod | grep kvm ``` 
+
+![image](https://user-images.githubusercontent.com/32956424/144170292-14e6bea8-0616-4f4d-88a4-06b27526af0d.png)
+
+Khởi động service libvirtd:
+
+``` systemctl enable libvirtd && systemctl start libvirtd ``` 
+
+Kiểm tra service libvirtd
+
+``` systemctl status libvirtd ```
+
+![image](https://user-images.githubusercontent.com/32956424/144170588-ea40a593-f79a-43d6-af1e-f265392b6c7d.png)
 
 
 
