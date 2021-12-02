@@ -218,7 +218,7 @@ Chọn Storage để lưu trữ image của máy ảo.
 
 Đặt tên cho VM. Ngoài ra, tuỳ chọn **Network selection** cho phép người dùng cấu hình loại mạng ảo cho VM.
 
-![image](https://user-images.githubusercontent.com/32956424/144357524-18cccb3a-08ee-4a10-96e2-4bb4e8d60599.png)
+![image](https://user-images.githubusercontent.com/32956424/144372638-6596f86f-0b5e-47a5-a6d3-af6f32edb662.png)
 
 Cuối cùng chọn **Finish** để toàn tất 
 
@@ -231,6 +231,31 @@ Máy ảo đã được tạo và boot bằng file ISO đã chọn trước đó
 
 <a name = "5"></a>
 # 5 . Network và Storage
+
+## 5.1. Virtual Network
+
+### Isolated Virtual Network
+
+Khi sử dụng Isolated Mode, các máy ảo (guest) có thể tương tác với nhau nếu được kết nối vào cùng virtual switch. Nhưng không thể kết nối ra mạng ngoài, không thể nhận traffic từ bên ngoài HOST vật lý.
+
+![image](https://user-images.githubusercontent.com/32956424/144396853-b9082feb-39eb-477d-83ef-7e3a2504ae1d.png)
+
+
+### Routed Virtual Network
+
+Trong Routed Mode, virtual switch sẽ kết nối với 
+
+![image](https://user-images.githubusercontent.com/32956424/144400627-8917f51c-9dfc-4737-8c99-7341823a46f8.png)
+
+
+### NATed Virtual Network
+
+![image](https://user-images.githubusercontent.com/32956424/144400684-b79e15c6-234a-40ed-ac21-a92ca75a5e28.png)
+
+
+## 5.2. Storage
+
+
 
 
 
