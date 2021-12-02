@@ -19,18 +19,9 @@
 
 [4. Quản lý KVM](#4)
 
-- [3.1. Công cụ Virt Manager](#4.1)
+- [4.1. Công cụ Virt Manager](#4.1)
 
-- [3.2. Các chức năng chính](#4.2)
-
-- [2.2. Tạo máy ảo KVM](#4.3)
-
-
-[4. Network và Storage](#4)
-
-- [3.1. Công cụ Virt-Manager](#4.1)
-
-- [3.2. Các chức năng chính](#4.2)
+- [4.2. Tạo máy ảo](#4.2)
 
 
 [5. Network và Storage](#5)
@@ -168,7 +159,78 @@ Kiểm tra service libvirtd
 ![image](https://user-images.githubusercontent.com/32956424/144170588-ea40a593-f79a-43d6-af1e-f265392b6c7d.png)
 
 
+<a name = "4"></a>
+# 4. Quản lý KVM
 
+<a name = "4.1"></a>
+## 4.1. Công cụ Virt Manager
+
+Virt Manager là một ứng dụng giao diện đồ hoạ dùng để quản lý các máy ảo thông qua API của libvirt.
+
+Virt Manager có thể được dùng để quản lý các máy ảo KVM. Cho phép hiển thị thông tin, cấu hình máy ảo, quản lý các mạng ảo thông qua giao diện GUI.
+
+Có thể dùng Virt Manager để quản lý máy ảo từ xa trên các máy khác.
+
+Chọn **File** > **Add Connection**
+
+![image](https://user-images.githubusercontent.com/32956424/144355684-35c0bf07-3f3c-4d8e-be7e-f16c4c65ed9b.png)
+
+Nhập thông tin của remote host,
+
+![image](https://user-images.githubusercontent.com/32956424/144355780-c4cc3585-2935-4f52-9927-fff6bba63bdf.png)
+
+Kết nối remote host thành công
+
+![image](https://user-images.githubusercontent.com/32956424/144355829-f3397bf5-6684-45f8-8621-fb27f75f1b0c.png)
+
+
+<a name = "4.2"></a>
+## 4.2. Tạo máy ảo
+
+Tại giao diện chính của Virt Manager, chọn Create a new Virtual Machine.
+
+![image](https://user-images.githubusercontent.com/32956424/144356143-936cb819-058d-4599-ab74-b9d022e96081.png)
+
+Chọn **Local install media** rồi chọn **Forward**.
+
+![image](https://user-images.githubusercontent.com/32956424/144356228-cdb4b6c1-23c6-403a-9f73-068717705ad9.png)
+
+Chọn **Browse** để cài đặt bằng file ISO.
+
+![image](https://user-images.githubusercontent.com/32956424/144356359-cbc65d84-8265-4d20-b7aa-12e796746b76.png)
+
+Chọn đường dẫn đến file ISO, rồi chọn **Forward**.
+
+![image](https://user-images.githubusercontent.com/32956424/144356490-e57fb963-a99d-4264-8766-42ef63b38805.png)
+
+![image](https://user-images.githubusercontent.com/32956424/144356611-00ef312d-5a93-49f3-a37e-8bf18a17db06.png)
+
+Tuỳ chỉnh thông số RAM và CPU cho máy ảo.
+
+![image](https://user-images.githubusercontent.com/32956424/144356667-d1729dad-d0a3-4500-a483-5f4f67285e3b.png)
+
+Chọn Storage để lưu trữ image của máy ảo.
+
+![image](https://user-images.githubusercontent.com/32956424/144357122-e79535ef-2d70-48f2-860c-478dc27ad173.png)
+
+- **Create a disk image for virtual machine** - mặc định sẽ được lưu ở thư mục /lib/libvirt/images/<Tên VM>.qcow2
+- **Select or create a custom storage** - cho phép tạo hoặc chỉ định storage lưu trữ image
+
+Đặt tên cho VM. Ngoài ra, tuỳ chọn **Network selection** cho phép người dùng cấu hình loại mạng ảo cho VM.
+
+![image](https://user-images.githubusercontent.com/32956424/144357524-18cccb3a-08ee-4a10-96e2-4bb4e8d60599.png)
+
+Cuối cùng chọn **Finish** để toàn tất 
+
+![image](https://user-images.githubusercontent.com/32956424/144357718-85bd1a99-43b7-4507-9ace-d61a50a2f460.png)
+
+Máy ảo đã được tạo và boot bằng file ISO đã chọn trước đó. Tiến hành cài đặt OS như bình thường.
+
+![image](https://user-images.githubusercontent.com/32956424/144357777-cdca87ad-80f9-4d70-8fae-d893c23055be.png)
+
+
+<a name = "5"></a>
+# 5 . Network và Storage
 
 
 
