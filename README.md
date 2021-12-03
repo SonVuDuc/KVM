@@ -235,6 +235,13 @@ Máy ảo đã được tạo và boot bằng file ISO đã chọn trước đó
 
 ## 5.1. Virtual Network
 
+Thành phần chính của Network trong KVM là **bridge**. Có thể hiểu đơn giản nó là một switch ảo (virtual switch), với chức năng và hoạt động như một switch layer 3 thông thường.
+
+Các máy ảo (guest) sẽ kết nối vào virtual switch đó. Virtual switch có nhiều mode khác nhau, tuỳ thuộc theo mục đích sử dụng.
+
+![image](https://user-images.githubusercontent.com/32956424/144544999-6f78a1b2-69f9-413f-88bd-817d5cac0bbd.png)
+
+
 ### Isolated Virtual Network
 
 Khi sử dụng Isolated Mode, các máy ảo (guest) có thể tương tác với nhau nếu được kết nối vào cùng virtual switch. Nhưng không thể kết nối ra mạng ngoài, không thể nhận traffic từ bên ngoài HOST vật lý.
@@ -251,14 +258,46 @@ Tất cả các máy guest có cùng subnet đều được định tuyến qua 
 
 ### NATed Virtual Network
 
+Mặc định, virtual switch sẽ hoạt động ở chế độ NAT mode.
+
+Các máy guest sẽ sử dụng IP của máy HOST để kết nối với mạng ngoài. Máy ngoài HOST không thể khởi tạo kết nối tới những máy guest này.
+
 ![image](https://user-images.githubusercontent.com/32956424/144536502-492855cb-fabb-4133-89ac-78ae5ee568d4.png)
 
 ## 5.2. Storage
 
+### 5.2.1. Storage Pool
+
+Trong KVM, storage pool là nơi lưu trữ các image của máy ảo. Nơi lưu trữ mặc định là thư mục ``` /var/lib/libvirt/images ```.
+
+Có thể tạo thêm storage pool hoặc thêm LVM làm storage pool cho image.
+
+Chọn **Edit > Connection Details**
+
+![image](https://user-images.githubusercontent.com/32956424/144546292-fd363a50-1875-45db-862f-147d166fb892.png)
+
+Chọn tab **Storage**
+
+![image](https://user-images.githubusercontent.com/32956424/144546419-02b425c9-e9d6-485a-a2b3-8e89ed8397e1.png)
+
+Để thêm storage pool, chọn **Add Pool**
+
+![image](https://user-images.githubusercontent.com/32956424/144546575-302f3198-d152-4409-bfe2-afe2b1a5f3e9.png)
+
+Đặt tên cho pool, chọn **Forward**
+
+![image](https://user-images.githubusercontent.com/32956424/144546693-8e25f963-0f03-4565-9ba5-c5932f122992.png)
+
+Chọn **Browse** để tìm đường dẫn đến target directory.
+
+![image](https://user-images.githubusercontent.com/32956424/144546818-0e5c72d9-38a9-4185-a3e8-34ce54288c18.png)
+
+
+
+
 
 <a name = "6"></a>
 # 6. Templates và Snapshots
-
 
 
 
