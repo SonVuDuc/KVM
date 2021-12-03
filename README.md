@@ -233,6 +233,7 @@ Máy ảo đã được tạo và boot bằng file ISO đã chọn trước đó
 <a name = "5"></a>
 # 5 . Network và Storage
 
+<a name = "5.1"></a>
 ## 5.1. Virtual Network
 
 Thành phần chính của Network trong KVM là **bridge**. Có thể hiểu đơn giản nó là một switch ảo (virtual switch), với chức năng và hoạt động như một switch layer 3 thông thường.
@@ -264,8 +265,10 @@ Các máy guest sẽ sử dụng IP của máy HOST để kết nối với mạ
 
 ![image](https://user-images.githubusercontent.com/32956424/144536502-492855cb-fabb-4133-89ac-78ae5ee568d4.png)
 
+<a name = "5.2"></a>
 ## 5.2. Storage
 
+<a name = "5.2.1"></a>
 ### 5.2.1. Storage Pool
 
 Trong KVM, storage pool là nơi lưu trữ các image của máy ảo. Nơi lưu trữ mặc định là thư mục ``` /var/lib/libvirt/images ```.
@@ -288,10 +291,14 @@ Chọn tab **Storage**
 
 ![image](https://user-images.githubusercontent.com/32956424/144546693-8e25f963-0f03-4565-9ba5-c5932f122992.png)
 
-Chọn **Browse** để tìm đường dẫn đến target directory.
+Chọn **Browse** để tìm đường dẫn đến target directory. Chọn **Finish** để hoàn tất.
 
 ![image](https://user-images.githubusercontent.com/32956424/144546818-0e5c72d9-38a9-4185-a3e8-34ce54288c18.png)
 
+
+
+<a name = "5.2.2"></a>
+### 5.2.2. Storage Volumes
 
 
 
