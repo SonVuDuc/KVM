@@ -26,6 +26,7 @@
 
 [5. Network và Storage](#5)
 
+[6. Templates và Snapshots](#6)
 
 ---
 
@@ -238,22 +239,25 @@ Máy ảo đã được tạo và boot bằng file ISO đã chọn trước đó
 
 Khi sử dụng Isolated Mode, các máy ảo (guest) có thể tương tác với nhau nếu được kết nối vào cùng virtual switch. Nhưng không thể kết nối ra mạng ngoài, không thể nhận traffic từ bên ngoài HOST vật lý.
 
-![image](https://user-images.githubusercontent.com/32956424/144396853-b9082feb-39eb-477d-83ef-7e3a2504ae1d.png)
-
+![image](https://user-images.githubusercontent.com/32956424/144536469-d482b0c2-9f15-44dc-a2fc-33e36feed6b8.png)
 
 ### Routed Virtual Network
 
-Trong Routed Mode, virtual switch sẽ kết nối với 
+Trong Routed Mode, virtual switch sẽ kết nối với mạng LAN vật lý của HOST, đồng thời đóng vai trò chuyển tiếp traffic cho các máy guest mà không cần sử dụng NAT.
 
-![image](https://user-images.githubusercontent.com/32956424/144400627-8917f51c-9dfc-4737-8c99-7341823a46f8.png)
+Tất cả các máy guest có cùng subnet đều được định tuyến qua virtual switch. Tuy nhiên, các máy HOST vật lý khác không hề biết đến sự tồn tại của subnet này, cũng như không thể định tuyến tới nó. Do đó cần phải cấu hình định tuyến tĩnh trên router vật lý mới có thể kết nối được
 
+![image](https://user-images.githubusercontent.com/32956424/144536490-5425863c-0cd5-4ca3-918d-3af5e9e3ad35.png)
 
 ### NATed Virtual Network
 
-![image](https://user-images.githubusercontent.com/32956424/144400684-b79e15c6-234a-40ed-ac21-a92ca75a5e28.png)
-
+![image](https://user-images.githubusercontent.com/32956424/144536502-492855cb-fabb-4133-89ac-78ae5ee568d4.png)
 
 ## 5.2. Storage
+
+
+<a name = "6"></a>
+# 6. Templates và Snapshots
 
 
 
