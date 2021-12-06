@@ -271,7 +271,7 @@ Các máy guest sẽ sử dụng IP của máy HOST để kết nối với mạ
 <a name = "5.2.1"></a>
 ### 5.2.1. Storage Pool
 
-Trong KVM, storage pool là nơi lưu trữ các image của máy ảo. Nơi lưu trữ mặc định là thư mục ``` /var/lib/libvirt/images ```.
+Trong KVM, storage pool là nơi lưu trữ các image của máy ảo. Nơi lưu trữ mặc định là thư mục **``` /var/lib/libvirt/images ```**.
 
 Có thể tạo thêm storage pool hoặc thêm LVM làm storage pool cho image.
 
@@ -306,8 +306,21 @@ Chọn **Browse** để tìm đường dẫn đến target directory. Chọn **F
 <a name = "6"></a>
 # 6. Templates và Snapshots
 
+<a name = "6.1"></a>
+# 6.1. Templates
 
+Template là một image OS của VM chưa được cấu hình hoàn chỉnh, được dùng để deloy các VM một cách nhanh chóng.
 
+Sử dụng template sẽ tiết kiệm được thời gian, bỏ qua những thao tác install và cấu hình ban đầu. 
+
+VD về việc không sử dụng template, khi cần nhiều VM chạy dịch vụ, sẽ phải tạo ngần ấy VM, khai báo hardware và cấu hình từng VM.
+
+![image](https://user-images.githubusercontent.com/32956424/144776990-f0a08bd7-bd98-453f-9fa5-b97470c02637.png)
+
+VD về việc sử dụng template, chỉ cần tạo 1 VM template, khi cần VM có cấu hình tương tự, chỉ cần deploy từ template 
+
+![image](https://user-images.githubusercontent.com/32956424/144777431-cc904b84-889f-4821-948f-73994ed92894.png)
+  
 
 
 
