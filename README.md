@@ -26,6 +26,10 @@
 
 [5. Network và Storage](#5)
 
+- [5.1. Network](#5.1)
+
+- [5.2. Storage](#5.2)
+
 [6. Templates và Snapshots](#6)
 
 ---
