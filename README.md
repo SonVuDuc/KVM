@@ -26,11 +26,15 @@
 
 [5. Network và Storage](#5)
 
-- [5.1. Network](#5.1)
+- [5.1. Virtual Network](#5.1)
 
 - [5.2. Storage](#5.2)
 
 [6. Templates và Snapshots](#6)
+
+- [6.1. Templates](#6.1)
+
+- [6.2. Snapshots](#6.2)
 
 ---
 
@@ -311,7 +315,7 @@ Chọn **Browse** để tìm đường dẫn đến target directory. Chọn **F
 # 6. Templates và Snapshots
 
 <a name = "6.1"></a>
-# 6.1. Templates
+## 6.1. Templates
 
 Template là một image OS của VM chưa được cấu hình hoàn chỉnh, được dùng để deloy các VM một cách nhanh chóng.
 
