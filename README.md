@@ -328,7 +328,51 @@ VD về việc không sử dụng template, khi cần nhiều VM chạy dịch v
 VD về việc sử dụng template, chỉ cần tạo 1 VM template, khi cần VM có cấu hình tương tự, chỉ cần deploy từ template 
 
 ![image](https://user-images.githubusercontent.com/32956424/144777431-cc904b84-889f-4821-948f-73994ed92894.png)
-  
+
+Thông thường khi muốn tạo 1 VM dựa trên một VM khác, chúng ta hay sử dụng chức năng **Clone**. Tính năng clone không hẳn là tạo hay deploy template.
+
+Thay vào đó, tính năng **``` virt-sysprep ```** mới thực sự là tạo template. Clone đơn giản chỉ là một phiên bản copy của VM, còn template mới thực sự dùng cho việc tạo ra nhiều clone. 
+
+Template được tạo ra bằng cách convert một VM thành template, quá trình này bao gồm 3 bước:
+
+- Build một VM để làm template, cấu hình và cài đặt các gói phần mềm cần thiết.
+- Gỡ bỏ nhưng thông số đặc thù của VM đó, VD: SSH key, địa chỉ MAC, user account,... để đảm bảo những thông tin đó không tồn tại trong template.
+- Đánh dấu VM đó là template bằng cách đặt tên cho nó. Khi cần deploy VM nhanh chỉ cần clone từ nó.
+
+Liệt kê danh sách các VM. Trước khi tạo template, VM template phải được shutdown
+
+![image](https://user-images.githubusercontent.com/32956424/144819694-4b981ad3-a63a-4c95-8262-104a4f0f068d.png)
+
+Remove các thông số của VM bằng lệnh ``` virt-sysprep -d Centos7-1 ```
+
+![image](https://user-images.githubusercontent.com/32956424/144819973-c861133c-55b0-4b1c-a3ef-e6106e9dd2bc.png)
+
+Đổi tên VM bằng cách chỉnh sửa file xml
+
+``` virsh dumpxml Centos7-1 > /root/Template_Centos7.xml ```
+
+``` vi /root/Template_Centos7.xml ```
+
+Thay đổi trường **``` <name> </name> ```** trong file xml thành **``` <name> Template_Centos7 </name> ```**
+
+![image](https://user-images.githubusercontent.com/32956424/144824905-761dcf64-1d0f-4061-9218-310126f20733.png)
+
+Template đã được tạo.
+
+![image](https://user-images.githubusercontent.com/32956424/144825188-c8a691e8-bc0a-4fe1-bcba-59d888059917.png)
+
+Deploy VM nhanh chóng bằng cách clone từ VM template.
+
+![image](https://user-images.githubusercontent.com/32956424/144825335-fc636d79-ab17-48d3-b9a9-ccae74359104.png)
+
+Đặt tên cho VM và cấu hình hardware. Chọn **Clone**.
+
+![image](https://user-images.githubusercontent.com/32956424/144825394-d0cb069b-1334-4801-8f5f-d083c41c3465.png)
+
+Template phải luôn luôn trong trạng thái shutdown và không được bật. Nếu không sẽ ảnh hưởng đến những VM được clone từ nó.
+
+<a name = "6.2"></a>
+## 6.2. Snapshots
 
 
 
