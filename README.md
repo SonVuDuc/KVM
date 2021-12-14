@@ -403,17 +403,33 @@ Tuy nhiên nhược điểm là: khi tiến hành snapshot, VM sẽ bị paused,
 
 ### External snapshot
 
-Nguyên lý hoạt động của External snapshot khác với Internal snapshot. Thay vì lưu trữ toàn bộ thông tin phiên bản snapshot trong một file qcow2 duy nhất, External snapshot sẽ tạo ra một **overlay image** mỗi khi tiến hành snapshot.
+Nguyên lý hoạt động của External snapshot khác với Internal snapshot. Thay vì lưu trữ toàn bộ thông tin phiên bản snapshot trong một file qcow2 duy nhất, External snapshot sẽ tạo ra **overlay image** mỗi khi tiến hành snapshot.
 
-Dựa trên cơ chế **copy-on-write**. File image gốc sẽ đưa vào trạng thái **read-only**
+Dựa trên cơ chế **copy-on-write**. File image gốc sẽ đưa vào trạng thái **read-only**, những file **read-only** được gọi là **backing file**.
+
+![image](https://user-images.githubusercontent.com/32956424/145980717-c4412be6-51f5-4b64-b315-3c6721b8ed3f.png)
+
+Mỗi khi tiến hành snapshot, sẽ tạo ra một file overlay image mới và trở đến file image hiện tại, đồng thời file image hiện tại sẽ chuyển sang trạng thái read-only. Tạo thành một chuỗi gọi là **backing chain**.
+
+![image](https://user-images.githubusercontent.com/32956424/145981629-ebfce69b-a16c-4c9c-a31a-32e49c7cb732.png)
 
 
-
-![image](https://user-images.githubusercontent.com/32956424/145977142-cb5e9a8a-91bb-416e-b0ab-af012da97d09.png)
-
-
+Trong quá trình snapshot, VM không bị paused, đồng thời có tốc độ nhanh hơn.
 
 Khác với Internal snapshot chỉ hỗ trợ định dạng qcow2, External snapshot hỗ trợ nhiều định dạng file.
+
+Tuy nhiên nhược điểm là External snapshot không có giao diện người dùng, việc revert lại cần phải thực hiện khá phức tạp do KVM hiện tại chưa hỗ trợ đầy đủ. Không thể live restore mà cần phải shut down VM mới restore được.
+
+Khi những file overlay image quá nhiều, cần phải xoá bớt để giải phóng dung lượng. Tuy nhiên các file overlay image không thể bị xoá một cách trực tiếp. Mà chúng phải được merge với file base image rồi mới có thể xoá được.
+
+Có 2 phương thức để merge data file image:
+
+- **Blockcommit**: merge data từ overlay image với backing file image, tốc độ nhanh vì file overlay image thường nhỏ hơn base image.
+- **Blockpull**: merge data từ backing file image đến current image. File current image sẽ không còn phụ thuộc vào base image. 
+
+Sau khi merge data xong, có thể xoá overlay image đi.
+
+
 
 
 
