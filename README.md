@@ -138,7 +138,6 @@ Tóm lại là: QEMU là mức thấp nhất mô phỏng bộ xử lý và thi�
 <a name = "3"></a>
 # 3. Cài đặt KVM
 
-
 Để cài được KVM thì cần phải được CPU hỗ trợ, kiểm tra xem CPU có hỗ trợ hay không bằng cách sử dụng lệnh:
 
 ``` egrep -c "svm|vmx" /proc/cpuinfo ```
@@ -193,6 +192,7 @@ Kết nối remote host thành công
 ![image](https://user-images.githubusercontent.com/32956424/144355829-f3397bf5-6684-45f8-8621-fb27f75f1b0c.png)
 
 
+
 <a name = "4.2"></a>
 ## 4.2. Tạo máy ảo
 
@@ -237,9 +237,22 @@ Máy ảo đã được tạo và boot bằng file ISO đã chọn trước đó
 
 ![image](https://user-images.githubusercontent.com/32956424/144357777-cdca87ad-80f9-4d70-8fae-d893c23055be.png)
 
+Trong KVM, mỗi VM được tạo nên bởi 2 thành phần chính là VM defination được lưu ở dưới dạng  file XML và VM storage được lưu ở dạng virtual disk.
+
+Mặc định các file XML của VM được lưu ở  ```**/etc/libvirt/qemu**```.
+
+File XML sẽ chứa những thông tin về các thành phần của VM, như số CPU, RAM, các thiết lập I/O, OS,...
+
+![image](https://user-images.githubusercontent.com/32956424/145966579-3b32829b-6812-4f2d-983b-36698d6f01a7.png)
+
+Từ file XML trên, libvirt sử dụng những thông tin đó để tiến hành khởi chạy tiến trình QEMU-KVM để tạo máy ảo.
+
 
 <a name = "5"></a>
 # 5 . Network và Storage
+
+Bên cạnh những file XML chứa thông tin của VM, KVM cũng có những file XML khác để lưu những thông tin liên quan đến Network và Storage
+
 
 <a name = "5.1"></a>
 ## 5.1. Virtual Network
@@ -276,37 +289,34 @@ Các máy guest sẽ sử dụng IP của máy HOST để kết nối với mạ
 <a name = "5.2"></a>
 ## 5.2. Storage
 
-<a name = "5.2.1"></a>
-### 5.2.1. Storage Pool
+Trong KVM, khi tạo ra các máy ảo, cần phải có một khu vực để lưu trữ virtual disk của chúng. Được gọi là Storage pool.
 
-Trong KVM, storage pool là nơi lưu trữ các image của máy ảo. Nơi lưu trữ mặc định là thư mục **``` /var/lib/libvirt/images ```**.
+Storage pool là nơi lưu trữ các virtual disk của máy ảo, có thể tạo nhiều storage pool tuỳ theo mục đích sử dụng. Nơi lưu trữ mặc định là thư mục **``` /var/lib/libvirt/images ```**.
 
-Có thể tạo thêm storage pool hoặc thêm LVM làm storage pool cho image.
+KVM cung cấp đa dạng các storage type khác nhau để tạo storage pool cho việc lưu trữ máy ảo:
 
-Chọn **Edit > Connection Details**
+![image](https://user-images.githubusercontent.com/32956424/145926022-7dbfb53b-ea7d-4779-a2c9-ded1fb1e7f2f.png)
 
-![image](https://user-images.githubusercontent.com/32956424/144546292-fd363a50-1875-45db-862f-147d166fb892.png)
+- **dir**: Sử dụng filesystem directory để lưu trữ virtual disks
+- **disk**: Sử dụng ổ đĩa vật lý để tạo ra virtual disk
+- **fs**: Chỉ định một phân vùng của ổ đĩa rồi dùng nó như một directory (không cần mount trước)
+- **gluster**: Cho phép sử dụng gluster filesystem
+- **iscsi**: Dùng network-shared iSCSI, volume phải được cấp phát trước trên iSCSI server. Không thể tạo qua Libvirt API
+- **logical**: Sử dụng LVM để lưu virtual disk, đồng thời hỗ trợ tính năng tạo LVM từ disk.
+- **mpath**: Pool này sử dụng tất cả multipath từ thiết bị khác kết nối tới host. Do đó mỗi host chỉ có thể cấu hình duy nhất một Multipath pool
+- **netfs**: Dùng network-shared filesystem như NFS, yêu cầu tên host và path của exported directory
+- **rbd**:  Sử dụng Ceph storage
+- **scsi**: Dùng local SCSI 
+- **sheepdog**: Pool được tạo từ Sheepdog cluster
+- **zfs**: Dùng ZFS filesystem, tính năng này chỉ có trên UNIX
 
-Chọn tab **Storage**
+Trong đó, những storage type thường được dùng nhất là: **File System Directory**, **LVM**, **NFS storage** và **iSCSI**
 
-![image](https://user-images.githubusercontent.com/32956424/144546419-02b425c9-e9d6-485a-a2b3-8e89ed8397e1.png)
+Storage volume là đơn vị lưu trữ dữ liệu ở trong storage pool, có thể hiểu chúng là virtual disk của máy ảo. Khi cần thêm disk lưu trữ cho VM, cần phải tạo storage volume cho nó.
 
-Để thêm storage pool, chọn **Add Pool**
-
-![image](https://user-images.githubusercontent.com/32956424/144546575-302f3198-d152-4409-bfe2-afe2b1a5f3e9.png)
-
-Đặt tên cho pool, chọn **Forward**
-
-![image](https://user-images.githubusercontent.com/32956424/144546693-8e25f963-0f03-4565-9ba5-c5932f122992.png)
-
-Chọn **Browse** để tìm đường dẫn đến target directory. Chọn **Finish** để hoàn tất.
-
-![image](https://user-images.githubusercontent.com/32956424/144546818-0e5c72d9-38a9-4185-a3e8-34ce54288c18.png)
+![image](https://user-images.githubusercontent.com/32956424/145962347-9223226d-8696-4122-ab6b-15f4c04b138b.png)
 
 
-
-<a name = "5.2.2"></a>
-### 5.2.2. Storage Volumes
 
 
 
@@ -373,6 +383,9 @@ Template phải luôn luôn trong trạng thái shutdown và không được b�
 
 <a name = "6.2"></a>
 ## 6.2. Snapshots
+
+Snapshot là một image của VM tại một thời điểm nào đó, bản chất là một file lưu thông tin cấu hình của VM. Có thể được dùng để khôi phục trạng thái của VM, trong trường hơp VM bị lỗi.
+
 
 
 
