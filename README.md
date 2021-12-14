@@ -239,7 +239,7 @@ Máy ảo đã được tạo và boot bằng file ISO đã chọn trước đó
 
 Trong KVM, mỗi VM được tạo nên bởi 2 thành phần chính là VM defination được lưu ở dưới dạng  file XML và VM storage được lưu ở dạng virtual disk.
 
-Mặc định các file XML của VM được lưu ở  ```**/etc/libvirt/qemu**```.
+Mặc định các file XML của VM được lưu ở  **```/etc/libvirt/qemu```**.
 
 File XML sẽ chứa những thông tin về các thành phần của VM, như số CPU, RAM, các thiết lập I/O, OS,...
 
@@ -251,8 +251,7 @@ Từ file XML trên, libvirt sử dụng những thông tin đó để tiến h�
 <a name = "5"></a>
 # 5 . Network và Storage
 
-Bên cạnh những file XML chứa thông tin của VM, KVM cũng có những file XML khác để lưu những thông tin liên quan đến Network và Storage
-
+Bên cạnh những file XML chứa thông tin của VM, KVM cũng có những file XML khác để lưu những thông tin liên quan đến Network và Storage.
 
 <a name = "5.1"></a>
 ## 5.1. Virtual Network
@@ -315,10 +314,6 @@ Trong đó, những storage type thường được dùng nhất là: **File Sys
 Storage volume là đơn vị lưu trữ dữ liệu ở trong storage pool, có thể hiểu chúng là virtual disk của máy ảo. Khi cần thêm disk lưu trữ cho VM, cần phải tạo storage volume cho nó.
 
 ![image](https://user-images.githubusercontent.com/32956424/145962347-9223226d-8696-4122-ab6b-15f4c04b138b.png)
-
-
-
-
 
 
 <a name = "6"></a>
@@ -384,7 +379,42 @@ Template phải luôn luôn trong trạng thái shutdown và không được b�
 <a name = "6.2"></a>
 ## 6.2. Snapshots
 
-Snapshot là một image của VM tại một thời điểm nào đó, bản chất là một file lưu thông tin cấu hình của VM. Có thể được dùng để khôi phục trạng thái của VM, trong trường hơp VM bị lỗi.
+Snapshot là một image của VM tại một thời điểm nào đó, bản chất là một file lưu thông tin cấu hình của VM. 
+
+Snapshot có thể được dùng để khôi phục trạng thái trước đó của VM trong trường hợp VM bị lỗi, hoặc trước khi thực hiện những tác động đến VM.
+
+Snapshot trong KVM có thể thực hiện ngay cả khi VM đang chạy.
+
+Trong KVM, kỹ thuật snapshot được chia làm 2 loại:
+
+- Internal snapshot
+- External snapshot
+
+### Internal snapshot 
+
+Thông tin dữ liệu của các phiên bản snapshot được lưu trong một file qcow2 duy nhất - là file qcow2 của VM luôn, dễ dàng trong việc quản lý. 
+
+Virt-Manager cũng cung cấp giao diện với internal snapshot, dễ thao tác và sử dụng.
+
+![Screenshot (15)](https://user-images.githubusercontent.com/32956424/145975993-a23e4af0-de55-4115-9eb2-e7c16de33ba4.png)
+
+Tuy nhiên nhược điểm là: khi tiến hành snapshot, VM sẽ bị paused, đồng nghĩa với việc không thể truy cập bất cứ dịch vụ gì. Internal snapshot cũng không hoat động ở LVM storage pool. Và nó chỉ support duy nhất định dạng file qcow2.
+
+
+### External snapshot
+
+Nguyên lý hoạt động của External snapshot khác với Internal snapshot. Thay vì lưu trữ toàn bộ thông tin phiên bản snapshot trong một file qcow2 duy nhất, External snapshot sẽ tạo ra một **overlay image** mỗi khi tiến hành snapshot.
+
+Dựa trên cơ chế **copy-on-write**. File image gốc sẽ đưa vào trạng thái **read-only**
+
+
+
+![image](https://user-images.githubusercontent.com/32956424/145977142-cb5e9a8a-91bb-416e-b0ab-af012da97d09.png)
+
+
+
+Khác với Internal snapshot chỉ hỗ trợ định dạng qcow2, External snapshot hỗ trợ nhiều định dạng file.
+
 
 
 
