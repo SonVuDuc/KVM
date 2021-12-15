@@ -100,9 +100,18 @@ Là loại hypervisor được cài đặt trên hệ điều hành như một �
 
 **KVM** - **Kernel-based Virtual Machine**: máy ảo dựa trên nhân, là một module ảo hoá nằm trong nhân Linux, cung cấp giải pháp ảo hoá trên nền tảng phần cứng x86.
 
+Phiên bản đầu tiên được ra mắt vào năm 2007 bởi công ty Qumranet tại Isarel, KVM được tích hợp sẵn vào nhân của hệ điều hành Linux bắt đầu từ phiên bản 2.6.20. Năm 2008, RedHat đã mua lại Qumranet và bắt đầu phát triển, phổ biến KVM.
+
 KVM yêu cầu CPU phải có extention ảo hoá phần cứng như Intel VT hoặc AMD-V. 
 
-KVM hỗ trợ tính năng mapping các instruction của vCPU trên VM tới CPU vật lý.
+Tuy nhiên bản thân KVM không phải là hypervisor nên nó không thể thực hiện các chức năng như giả lập phần cứng. KVM giống như một driver để cho hypervisor sử dụng được hết tính năng ảo hoá của Intel VT-x hay AMD-V và tăng hiệu suất cho guest VM. KVM vẫn cần kết hợp với một hypervisor thực sự để có thể cung cấp giải pháp ảo hoá hoàn chỉnh.
+
+![image](https://user-images.githubusercontent.com/32956424/146147519-026bd027-2c45-4492-8f8c-513490d257ae.png)
+
+
+KVM hỗ trợ tính năng mapping các instruction (lệnh) của vCPU trên VM tới CPU vật lý.
+
+KVM hiện nay đã có mặt trên nhiều hệ điều hành khác nhau như: Linux, BSD, Solaris, Windows, Haiku, ReactOS... Sử dụng kết hợp với QEMU, KVM có thể chạy cả trên Mac OS X.
 
 ### Tính năng của KVM
 
