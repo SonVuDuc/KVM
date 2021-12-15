@@ -98,7 +98,8 @@ Là loại hypervisor được cài đặt trên hệ điều hành như một �
 <a name = "1.2"></a>
 ## 1.2. KVM
 
-**KVM** - **Kernel-based Virtual Machine**: máy ảo dựa trên nhân, là một module ảo hoá nằm trong nhân Linux, cho phép nhân Linux thực hiện các chức năng như một hypervisor
+**KVM** - **Kernel-based Virtual Machine**: máy ảo dựa trên nhân, là một module ảo hoá nằm trong nhân Linux
+
 
 ### Tính năng của KVM
 
@@ -110,9 +111,24 @@ Là loại hypervisor được cài đặt trên hệ điều hành như một �
 <a name = "1.3"></a>
 ## 1.3. QEMU
 
+QEMU là một phần mềm mã nguồn mở, có chức năng giả lập và ảo hoá, cung cấp môi trường máy ảo với nhiều tính năng hỗ trợ nhiều thiết bị phần cứng, bao gồm cả máy tính cấu trúc 32-bit và 64-bit. Cho phép người dùng chạy nhiều hệ điều hành khác nhau trên cùng một host.
+
+QEMU là một hypervisor loại 2.
+
+
 
 <a name = "1.4"></a>
 ## 1.4. Ảo hoá KVM kết hợp QEMU
+
+Bản thân QEMU đã là một hypervisor loại 2 với đầy đủ các tính năng quản lý VM, có khả năng tạo ra VM guest cùng phần cứng ảo hoá đầy đủ. Nó có thể chạy độc lập mà không cần đến module KVM.
+
+Tuy nhiên, QEMU vẫn cần kết hợp với KVM. Do trình biên dịch nhị phân có tốc độ rất chậm, ảnh hưởng đến hiệu suất của dịch vụ trên VM.
+
+Khi QEMU kết hợp với KVM (thường được gọi là ảo hoá QEMU/KVM), khi đó KVM sẽ mapping các instruction của vCPU tới CPU vật lý, làm vậy sẽ có tốc độ nhanh hơn so với chỉ chạy độc lập QEMU. Nếu không có KVM, QEMU sẽ phải sử dụng trình biên dịch riêng của nó là TCG.
+
+![image](https://user-images.githubusercontent.com/32956424/146123802-aff16c70-963b-479c-8253-c2093ea55a53.png)
+
+Tóm lại, QEMU cần KVM để boost performance và ngược lại KVM cần QEMU (modified version) để cung cấp giải pháp ảo hoá hoàn chỉnh.
 
 <a name = "2"></a>
 # 2. Libvirt
