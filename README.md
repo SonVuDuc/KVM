@@ -98,8 +98,11 @@ Là loại hypervisor được cài đặt trên hệ điều hành như một �
 <a name = "1.2"></a>
 ## 1.2. KVM
 
-**KVM** - **Kernel-based Virtual Machine**: máy ảo dựa trên nhân, là một module ảo hoá nằm trong nhân Linux
+**KVM** - **Kernel-based Virtual Machine**: máy ảo dựa trên nhân, là một module ảo hoá nằm trong nhân Linux, cung cấp giải pháp ảo hoá trên nền tảng phần cứng x86.
 
+KVM yêu cầu CPU phải có extention ảo hoá phần cứng như Intel VT hoặc AMD-V. 
+
+KVM hỗ trợ tính năng mapping các instruction của vCPU trên VM tới CPU vật lý.
 
 ### Tính năng của KVM
 
@@ -113,9 +116,23 @@ Là loại hypervisor được cài đặt trên hệ điều hành như một �
 
 QEMU là một phần mềm mã nguồn mở, có chức năng giả lập và ảo hoá, cung cấp môi trường máy ảo với nhiều tính năng hỗ trợ nhiều thiết bị phần cứng, bao gồm cả máy tính cấu trúc 32-bit và 64-bit. Cho phép người dùng chạy nhiều hệ điều hành khác nhau trên cùng một host.
 
-QEMU là một hypervisor loại 2.
+QEMU là một hypervisor loại 2. 
+
+QEMU có 2 chế độ hoạt động:
+
+- **QEMU Emulator** (giả lập): Khi hoạt động ở mode này, QEMU có khả năng mô phỏng và chạy hệ điều hành/ứng dụng trên một host có hệ điều hành khác. QEMU sử dụng một kỹ thuật gọi là binary translator (biên dịch nhị phân), cho phép nó mô phỏng lại CPU vật lý và chạy được nhiều hệ điều hành ở nhiều kiến trúc khác nhau. Trình biên dịch nhị phân của QEMU là Tiny Code Generator (TCG), sẽ biên dịch các yêu cầu trên CPU của máy ảo rồi thực thi ở trên CPU vật lý. Tuy nhiên, kỹ thuật này có tốc độ rất chậm do phải biên dịch lệnh.
+- **QEMU Virtualization** (ảo hoá): Khi hoạt động ở mode này, QEMU sử dụng module KVM tích hợp sẵn trong nhân Linux. Thay vì phải biên dịch lệnh như trên, module KVM sẽ mapping luôn các lệnh từ vCPU sang CPU vật lý, cho ra tốc độ cao hơn nhiều.
+
+![image](https://user-images.githubusercontent.com/32956424/146144527-8a0d3a9c-5b59-4b2a-b601-58ff91140163.png)
 
 
+
+### Những tính năng chính của phần mềm QEMU
+- Tạo máy ảo dựa trên trình biên dịch nhị phân động
+- Hỗ trợ nhiều thiết bị phần cứng
+- Có khả năng xử lý nhiều lệnh phức tạp từ người dùng
+- Hỗ trợ nhiều định dạng image
+- Truy cập trực tiếp vào thiết bị máy chủ
 
 <a name = "1.4"></a>
 ## 1.4. Ảo hoá KVM kết hợp QEMU
@@ -128,7 +145,7 @@ Khi QEMU kết hợp với KVM (thường được gọi là ảo hoá QEMU/KVM)
 
 ![image](https://user-images.githubusercontent.com/32956424/146123802-aff16c70-963b-479c-8253-c2093ea55a53.png)
 
-Tóm lại, QEMU cần KVM để boost performance và ngược lại KVM cần QEMU (modified version) để cung cấp giải pháp ảo hoá hoàn chỉnh.
+Tóm lại, QEMU cần KVM để boost performance và ngược lại KVM cần QEMU để cung cấp giải pháp ảo hoá hoàn chỉnh. KVM giống như một driver 
 
 <a name = "2"></a>
 # 2. Libvirt
