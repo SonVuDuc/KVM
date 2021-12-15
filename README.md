@@ -252,7 +252,6 @@ File XML sẽ chứa những thông tin về các thành phần của VM, như s
 
 Từ file XML trên, libvirt sử dụng những thông tin đó để tiến hành khởi chạy tiến trình QEMU-KVM để tạo máy ảo.
 
-
 <a name = "5"></a>
 # 5 . Network và Storage
 
@@ -404,18 +403,52 @@ Virt-Manager cũng cung cấp giao diện với internal snapshot, dễ thao tá
 
 ![Screenshot (15)](https://user-images.githubusercontent.com/32956424/145975993-a23e4af0-de55-4115-9eb2-e7c16de33ba4.png)
 
-Tuy nhiên nhược điểm là: khi tiến hành snapshot, VM sẽ bị paused, đồng nghĩa với việc không thể truy cập bất cứ dịch vụ gì. Internal snapshot cũng không hoat động ở LVM storage pool. Và nó chỉ support duy nhất định dạng file qcow2.
+Tuy nhiên nhược điểm là khi tiến hành snapshot, VM sẽ bị paused, đồng nghĩa với việc không thể truy cập bất cứ dịch vụ gì. Internal snapshot cũng không hoat động ở LVM storage pool. Và nó chỉ support duy nhất định dạng file qcow2.
+
+### Tạo Internal snapshot
+
+Trong giao diện của Virt Manager, chọn VM muốn tạo snapshot. Click Open.
+
+![image](https://user-images.githubusercontent.com/32956424/146116010-59f33009-2b17-4697-9b9c-8a3917ceffaf.png)
+
+Chọn phần **Manage VM snapshots**
+
+![image](https://user-images.githubusercontent.com/32956424/146116033-be20ab20-c632-4c6e-a420-76c3e8a06a49.png)
+
+Giao diện quản lý VM hiện ra, chọn **Create new snapshots**
+
+![image](https://user-images.githubusercontent.com/32956424/146116049-6e133735-2357-41d7-b593-5395b3d9f399.png)
+
+Đặt tên và thêm phần mô tả cho snapshot
+
+![image](https://user-images.githubusercontent.com/32956424/146116064-e9c695b8-dfa7-41ed-b90e-4eb17c58a446.png)
+
+Chọn **Finish** để hoàn tất 
+
+![image](https://user-images.githubusercontent.com/32956424/146116087-27def128-d747-4f7b-a5aa-6522f141eef2.png)
+
+
+### Restore Internal snapshot
+
+Mở giao diện **Manage VM snapshots**. Chọn snapshot muốn restore, click **Run selected snapshot**
+
+![image](https://user-images.githubusercontent.com/32956424/146116302-43994f82-4dcd-4fee-a37e-5d637e795bbe.png)
+
+Chọn **Yes**
+
+![image](https://user-images.githubusercontent.com/32956424/146116318-1c2b8043-eb25-41ec-8590-72ecb90e1f24.png)
+
 
 <a name = "6.2.2"></a>
 ### 6.2.2. External snapshot
 
 Nguyên lý hoạt động của External snapshot khác với Internal snapshot. Thay vì lưu trữ toàn bộ thông tin phiên bản snapshot trong một file qcow2 duy nhất, External snapshot sẽ tạo ra **overlay image** mỗi khi tiến hành snapshot.
 
-Dựa trên cơ chế **copy-on-write**. File image gốc sẽ đưa vào trạng thái **read-only**, những file **read-only** được gọi là **backing file**.
+Dựa trên cơ chế **copy-on-write**. File image gốc sẽ đưa vào trạng thái **read-only**, những file **read-only** được gọi là **backing files**. Còn file writeable được gọi là **overlay image**.
 
 ![image](https://user-images.githubusercontent.com/32956424/145980717-c4412be6-51f5-4b64-b315-3c6721b8ed3f.png)
 
-Mỗi khi tiến hành snapshot, external snapshot sẽ tạo ra một file overlay image mới và trỏ đến file image hiện tại, đồng thời file image hiện tại sẽ chuyển sang trạng thái read-only. Tạo thành một chuỗi gọi là **backing chain**.
+Mỗi khi tiến hành snapshot, external snapshot sẽ tạo ra một file overlay image mới và trỏ đến file overlay image hiện tại, đồng thời file overlay image hiện tại sẽ chuyển sang trạng thái read-only. Cứ như thế, tạo thành một chuỗi gọi là **backing chain**.
 
 ![image](https://user-images.githubusercontent.com/32956424/145981629-ebfce69b-a16c-4c9c-a31a-32e49c7cb732.png)
 
@@ -429,28 +462,28 @@ Tuy nhiên nhược điểm là External snapshot không có giao diện ngườ
 
 Tạo snapshot cho VM bằng lệnh:
 
-``` virsh snapshot-create-as --domain <Tên VM> --name <Tên snapshot> --disk-only --atomic ```
+**``` virsh snapshot-create-as --domain <Tên VM> --name <Tên snapshot> --disk-only --atomic ```**
 
 ![image](https://user-images.githubusercontent.com/32956424/146114675-f63454a6-08d0-4e9f-babb-6b35a7e871f8.png)
 
 Liệt kê danh sách các external snapshot của VM
 
-```virsh domblklist <Tên VM>```
+**```virsh domblklist <Tên VM>```**
 
 ![image](https://user-images.githubusercontent.com/32956424/146114912-0b7043b8-21ca-4fab-96d0-9e319c0eda16.png)
 
 
 ### Restore External snapshot
 
+Shutdown VM trước khi restore . Đảm bảo rằng VM đã off. Chạy lệnh:
+
+**``` virsh list --all```**
+
 Liệt kê danh sách các external snapshot của VM
 
  **```virsh domblklist <Tên VM>```**
 
 ![image](https://user-images.githubusercontent.com/32956424/146114912-0b7043b8-21ca-4fab-96d0-9e319c0eda16.png)
-
-Shutdown VM trước khi restore . Đảm bảo rằng VM đã off. Chạy lệnh:
-
-**``` virsh list --all```**
 
 Gỡ file image hiện tại của VM:
 
@@ -463,13 +496,12 @@ Thêm backing file image cho VM:
 ![image](https://user-images.githubusercontent.com/32956424/146115248-aabe27e5-e2a1-4e54-8351-859314614da6.png)
 
 
-
-Khi những file overlay image quá nhiều, cần phải xoá bớt để giải phóng dung lượng. Tuy nhiên các file overlay image không thể bị xoá theo cách thông thường. Mà chúng phải được merge với file base image rồi mới có thể xoá được.
+Khi những file image quá nhiều, cần phải xoá bớt để giải phóng dung lượng. Tuy nhiên các file image này không thể bị xoá theo cách thông thường. Mà chúng phải được merge với file base image rồi mới có thể xoá được.
 
 Có 2 phương thức để merge data file image:
 
-- **Blockcommit**: merge data từ overlay image với backing file image, tốc độ nhanh vì file overlay image thường nhỏ hơn base image.
-- **Blockpull**: merge data theo hướng từ backing file image đến current image. File current image sẽ không còn phụ thuộc vào base image (bản thân nó sẽ trở thành base image mới) và chứa toàn bộ data từ base image. File sẽ luôn là qcow2.
+- **Blockcommit**: merge data từ overlay image với base file image, tốc độ nhanh vì file overlay image thường nhỏ hơn base image.
+- **Blockpull**: merge data theo hướng từ base file image đến current image. File current image sẽ không còn phụ thuộc vào base image (bản thân nó sẽ trở thành base image mới) và chứa toàn bộ data từ base image. File sẽ luôn là qcow2.
 
 Sau khi merge data xong, các overlay image đã trở nên vô dụng và có thể xoá chúng đi.
 
