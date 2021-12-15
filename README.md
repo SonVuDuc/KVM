@@ -396,7 +396,7 @@ Trong KVM, kỹ thuật snapshot được chia làm 2 loại:
 - External snapshot
 
 <a name = "6.2.1"></a>
-### Internal snapshot 
+### 6.2.1. Internal snapshot 
 
 Thông tin dữ liệu của các phiên bản snapshot được lưu trong một file qcow2 duy nhất - là file qcow2 của VM luôn, dễ dàng trong việc quản lý. 
 
@@ -407,7 +407,7 @@ Virt-Manager cũng cung cấp giao diện với internal snapshot, dễ thao tá
 Tuy nhiên nhược điểm là: khi tiến hành snapshot, VM sẽ bị paused, đồng nghĩa với việc không thể truy cập bất cứ dịch vụ gì. Internal snapshot cũng không hoat động ở LVM storage pool. Và nó chỉ support duy nhất định dạng file qcow2.
 
 <a name = "6.2.2"></a>
-### External snapshot
+### 6.2.2. External snapshot
 
 Nguyên lý hoạt động của External snapshot khác với Internal snapshot. Thay vì lưu trữ toàn bộ thông tin phiên bản snapshot trong một file qcow2 duy nhất, External snapshot sẽ tạo ra **overlay image** mỗi khi tiến hành snapshot.
 
@@ -415,18 +415,56 @@ Dựa trên cơ chế **copy-on-write**. File image gốc sẽ đưa vào trạn
 
 ![image](https://user-images.githubusercontent.com/32956424/145980717-c4412be6-51f5-4b64-b315-3c6721b8ed3f.png)
 
-Mỗi khi tiến hành snapshot, sẽ tạo ra một file overlay image mới và trở đến file image hiện tại, đồng thời file image hiện tại sẽ chuyển sang trạng thái read-only. Tạo thành một chuỗi gọi là **backing chain**.
+Mỗi khi tiến hành snapshot, external snapshot sẽ tạo ra một file overlay image mới và trỏ đến file image hiện tại, đồng thời file image hiện tại sẽ chuyển sang trạng thái read-only. Tạo thành một chuỗi gọi là **backing chain**.
 
 ![image](https://user-images.githubusercontent.com/32956424/145981629-ebfce69b-a16c-4c9c-a31a-32e49c7cb732.png)
 
+Trong quá trình snapshot, VM không bị paused, đồng thời có tốc độ nhanh hơn so với Internal snapshot.
 
-Trong quá trình snapshot, VM không bị paused, đồng thời có tốc độ nhanh hơn.
+Khác với Internal snapshot chỉ hỗ trợ định dạng qcow2, External snapshot hỗ trợ khá nhiều định dạng file.
 
-Khác với Internal snapshot chỉ hỗ trợ định dạng qcow2, External snapshot hỗ trợ nhiều định dạng file.
+Tuy nhiên nhược điểm là External snapshot không có giao diện người dùng, việc restore lại cần phải thực hiện khá phức tạp do KVM hiện tại chưa hỗ trợ đầy đủ. Không thể live restore mà cần phải shut down VM mới restore được.
 
-Tuy nhiên nhược điểm là External snapshot không có giao diện người dùng, việc revert lại cần phải thực hiện khá phức tạp do KVM hiện tại chưa hỗ trợ đầy đủ. Không thể live restore mà cần phải shut down VM mới restore được.
+### Tạo External snapshot
 
-Khi những file overlay image quá nhiều, cần phải xoá bớt để giải phóng dung lượng. Tuy nhiên các file overlay image không thể bị xoá một cách trực tiếp. Mà chúng phải được merge với file base image rồi mới có thể xoá được.
+Tạo snapshot cho VM bằng lệnh:
+
+``` virsh snapshot-create-as --domain <Tên VM> --name <Tên snapshot> --disk-only --atomic ```
+
+![image](https://user-images.githubusercontent.com/32956424/146114675-f63454a6-08d0-4e9f-babb-6b35a7e871f8.png)
+
+Liệt kê danh sách các external snapshot của VM
+
+```virsh domblklist <Tên VM>```
+
+![image](https://user-images.githubusercontent.com/32956424/146114912-0b7043b8-21ca-4fab-96d0-9e319c0eda16.png)
+
+
+### Restore External snapshot
+
+Liệt kê danh sách các external snapshot của VM
+
+ **```virsh domblklist <Tên VM>```**
+
+![image](https://user-images.githubusercontent.com/32956424/146114912-0b7043b8-21ca-4fab-96d0-9e319c0eda16.png)
+
+Shutdown VM trước khi restore . Đảm bảo rằng VM đã off. Chạy lệnh:
+
+**``` virsh list --all```**
+
+Gỡ file image hiện tại của VM:
+
+**```virt-xml <Tên VM> --remove-device --disk target=<target của file image>```**
+
+Thêm backing file image cho VM:
+
+**```virt-xml <Tên VM> --add-device --disk <đường dẫn của file image gốc>,format=qcow2, bus=virtio```**
+
+![image](https://user-images.githubusercontent.com/32956424/146115248-aabe27e5-e2a1-4e54-8351-859314614da6.png)
+
+
+
+Khi những file overlay image quá nhiều, cần phải xoá bớt để giải phóng dung lượng. Tuy nhiên các file overlay image không thể bị xoá theo cách thông thường. Mà chúng phải được merge với file base image rồi mới có thể xoá được.
 
 Có 2 phương thức để merge data file image:
 
@@ -435,7 +473,7 @@ Có 2 phương thức để merge data file image:
 
 Sau khi merge data xong, các overlay image đã trở nên vô dụng và có thể xoá chúng đi.
 
-### Lưu ý
+#### Lưu ý
 - Bản chất snapshot không phải là giải pháp backup cho VM, nó chỉ là trạng thái của VM ở một thời điểm nhất định, cho phép VM restore về thời điểm đó.
 - Không nên giữ những file snapshot quá lâu, chúng sẽ làm tốn dung lượng lưu trữ và ảnh hưởng đến hiệu suất của VM, có thể gây ra lỗi cho VM.
 - Nên sử dụng External snapshot, tỉ lệ lỗi sẽ ít hơn so với Internal snapshot (hãng recommend thế).
