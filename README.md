@@ -113,12 +113,6 @@ KVM hỗ trợ tính năng mapping các instruction (lệnh) của vCPU trên VM
 
 KVM hiện nay đã có mặt trên nhiều hệ điều hành khác nhau như: Linux, BSD, Solaris, Windows, Haiku, ReactOS... Sử dụng kết hợp với QEMU, KVM có thể chạy cả trên Mac OS X.
 
-### Tính năng của KVM
-
-- Security – Bảo mật:
-- Memory management – Quản lý bộ nhớ:
-- Storage – Lưu trữ:
-- Live migration:
 
 <a name = "1.3"></a>
 ## 1.3. QEMU
