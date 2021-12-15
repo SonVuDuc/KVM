@@ -382,7 +382,7 @@ Template phải luôn luôn trong trạng thái shutdown và không được b�
 
 Snapshot là một image của VM tại một thời điểm nào đó, bản chất là một file lưu thông tin cấu hình của VM. 
 
-Snapshot có thể được dùng để khôi phục trạng thái trước đó của VM trong trường hợp VM bị lỗi, hoặc trước khi thực hiện những tác động đến VM.
+Snapshot có thể được dùng để khôi phục trạng thái trước đó của VM trong trường hợp VM bị lỗi, hoặc trước khi thực hiện những tác động đến VM. 
 
 Snapshot trong KVM có thể thực hiện ngay cả khi VM đang chạy.
 
@@ -426,12 +426,15 @@ Khi những file overlay image quá nhiều, cần phải xoá bớt để giả
 Có 2 phương thức để merge data file image:
 
 - **Blockcommit**: merge data từ overlay image với backing file image, tốc độ nhanh vì file overlay image thường nhỏ hơn base image.
-- **Blockpull**: merge data từ backing file image đến current image. File current image sẽ không còn phụ thuộc vào base image. 
+- **Blockpull**: merge data theo hướng từ backing file image đến current image. File current image sẽ không còn phụ thuộc vào base image (bản thân nó sẽ trở thành base image mới) và chứa toàn bộ data từ base image. File sẽ luôn là qcow2.
 
-Sau khi merge data xong, có thể xoá overlay image đi.
+Sau khi merge data xong, các overlay image đã trở nên vô dụng và có thể xoá chúng đi.
 
-
-
+### Lưu ý: 
+- Bản chất snapshot không phải là giải pháp backup cho VM, nó chỉ là trạng thái của VM ở một thời điểm nhất định, cho phép VM restore về thời điểm đó.
+- Không nên giữ những file snapshot quá lâu, chúng sẽ làm tốn dung lượng lưu trữ và ảnh hưởng đến hiệu suất của VM, có thể gây ra lỗi cho VM.
+- Nên sử dụng External snapshot, tỉ lệ lỗi sẽ ít hơn so với Internal snapshot (hãng recommend thế).
+-
 
 
 
