@@ -102,7 +102,7 @@ Là loại hypervisor được cài đặt trên hệ điều hành như một �
 
 Phiên bản đầu tiên được ra mắt vào năm 2007 bởi công ty Qumranet tại Isarel, KVM được tích hợp sẵn vào nhân của hệ điều hành Linux bắt đầu từ phiên bản 2.6.20. Năm 2008, RedHat đã mua lại Qumranet và bắt đầu phát triển, phổ biến KVM.
 
-KVM yêu cầu CPU phải có extention ảo hoá phần cứng như Intel VT hoặc AMD-V. 
+KVM yêu cầu CPU phải có extension ảo hoá phần cứng như Intel VT hoặc AMD-V. 
 
 Tuy nhiên bản thân KVM không phải là hypervisor nên nó không thể thực hiện các chức năng như giả lập phần cứng. KVM giống như một driver để cho hypervisor sử dụng được hết tính năng ảo hoá của Intel VT-x hay AMD-V và tăng hiệu suất cho guest VM. KVM vẫn cần kết hợp với một hypervisor thực sự để có thể cung cấp giải pháp ảo hoá hoàn chỉnh.
 
