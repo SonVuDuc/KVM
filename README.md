@@ -36,6 +36,10 @@
 
 - [6.2. Snapshots](#6.2)
 
+  - [6.2.1. Internal snapshots](#6.2.1)
+  
+  - [6.2.2. External snapshots](#6.2.2)   
+
 ---
 
 <a name = "1"></a>
@@ -391,6 +395,7 @@ Trong KVM, kỹ thuật snapshot được chia làm 2 loại:
 - Internal snapshot
 - External snapshot
 
+<a name = "6.2.1"></a>
 ### Internal snapshot 
 
 Thông tin dữ liệu của các phiên bản snapshot được lưu trong một file qcow2 duy nhất - là file qcow2 của VM luôn, dễ dàng trong việc quản lý. 
@@ -401,7 +406,7 @@ Virt-Manager cũng cung cấp giao diện với internal snapshot, dễ thao tá
 
 Tuy nhiên nhược điểm là: khi tiến hành snapshot, VM sẽ bị paused, đồng nghĩa với việc không thể truy cập bất cứ dịch vụ gì. Internal snapshot cũng không hoat động ở LVM storage pool. Và nó chỉ support duy nhất định dạng file qcow2.
 
-
+<a name = "6.2.2"></a>
 ### External snapshot
 
 Nguyên lý hoạt động của External snapshot khác với Internal snapshot. Thay vì lưu trữ toàn bộ thông tin phiên bản snapshot trong một file qcow2 duy nhất, External snapshot sẽ tạo ra **overlay image** mỗi khi tiến hành snapshot.
@@ -430,11 +435,10 @@ Có 2 phương thức để merge data file image:
 
 Sau khi merge data xong, các overlay image đã trở nên vô dụng và có thể xoá chúng đi.
 
-### Lưu ý: 
+### Lưu ý
 - Bản chất snapshot không phải là giải pháp backup cho VM, nó chỉ là trạng thái của VM ở một thời điểm nhất định, cho phép VM restore về thời điểm đó.
 - Không nên giữ những file snapshot quá lâu, chúng sẽ làm tốn dung lượng lưu trữ và ảnh hưởng đến hiệu suất của VM, có thể gây ra lỗi cho VM.
 - Nên sử dụng External snapshot, tỉ lệ lỗi sẽ ít hơn so với Internal snapshot (hãng recommend thế).
--
 
 
 
