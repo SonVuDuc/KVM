@@ -189,7 +189,9 @@ Nếu kết quả trả về lớn hơn 0 thì tức là CPU có hỗ trợ
 
 Chạy lệnh sau để cài đặt KVM và các package liên quan:
 
-```  yum install qemu-kvm libvirt bridge-utils virt-install virt-manager virt-install -y ```
+``` yum -y install qemu-kvm libvirt bridge-utils virt-install virt-manager virt-install -y ```
+
+``` yum -y install qemu-img libvirt-python python-virtinst libvirt-client virt-viewer```
 
 Sau khi quá trình cài đặt hoàn tất, kiểm tra KVM đã được cài đặt chưa bằng lệnh:
 
